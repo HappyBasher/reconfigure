@@ -48,7 +48,7 @@ rpm: build tgz
 deb: build tgz
 	rm -rf dist/*.deb
 
-	cat debian/changelog.in | sed s/__VERSION__/$(VERSION)/g | sed "s/__DATE__/$(DATE)/g" > debian/changelog
+#	cat debian/changelog.in | sed s/__VERSION__/$(VERSION)/g | sed "s/__DATE__/$(DATE)/g" > debian/changelog
 
 	cp dist/$(PROJECT)*.tar.gz ..
 	rename -f 's/$(PROJECT)-(.*)\.tar\.gz/$(DEBPROJECT)_$$1\.orig\.tar\.gz/' ../*
@@ -56,9 +56,9 @@ deb: build tgz
 
 	mv ../$(DEBPROJECT)*.deb dist/
 	
-	rm ../$(DEBPROJECT)*.orig.tar.gz
-	rm ../$(DEBPROJECT)*.changes
-	rm debian/changelog
+	mv ../$(DEBPROJECT)*.orig.tar.gz dist/
+	mv ../$(DEBPROJECT)*.changes dist/
+#	rm debian/changelog
 
 upload-deb: deb
 	scp dist/*.deb root@ajenti.org:/srv/repo/ng/debian
